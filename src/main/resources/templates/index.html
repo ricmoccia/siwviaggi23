@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="index.css">
+	<title>Demo</title>
+</head>
+
+<body>
+	<header th:replace="fragments/base.html :: intestazione"></header>
+
+	<div>
+		<h4>Operazioni</h4>
+		<div>
+			<a th:href="@{/personaForm}">Inserisci persona</a>
+		</div>
+		<div>
+			<a th:href="@{/persona}">Elenco persone</a>
+		</div>  
+	</div>
+</body>
+
+</html>
