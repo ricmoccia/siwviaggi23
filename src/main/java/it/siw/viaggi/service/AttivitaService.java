@@ -15,54 +15,58 @@ import it.siw.viaggi.repository.AttivitaRepository;
 public class AttivitaService {
 
 	@Autowired
-	private AttivitaRepository attivitaRepository;
+	private AttivitaRepository AttivitaRepository;
 
 	@Transactional
-	public void save(Attivita attivita) {
-		attivitaRepository.save(attivita);
+	public void save(Attivita Attivita) {
+		AttivitaRepository.save(Attivita);
 	}
 	
 	@Transactional
-	public Attivita inserisci(Attivita attivita) {
-		return attivitaRepository.save(attivita);
+	public Attivita inserisci(Attivita Attivita) {
+		return AttivitaRepository.save(Attivita);
 	}
 	
 	public Attivita findById(Long id) {
 		//quando uso un metodo optional, devo usare get() per farmi ritornare l'oggetto
-		return attivitaRepository.findById(id).get();
+		return AttivitaRepository.findById(id).get();
 	}
 	
 	public Attivita findByNome(String nome) {
-		return attivitaRepository.findByNome(nome);
+		return AttivitaRepository.findByNome(nome);
 	}
 	
 	public List<Attivita> findByIds(List<Long> ids) {
-		var i = attivitaRepository.findAllById(ids);
+		var i = AttivitaRepository.findAllById(ids);
 		List<Attivita> listaAttivita = new ArrayList<>(); 
-		for(Attivita attivita : i)
-			listaAttivita.add(attivita);
+		for(Attivita Attivita : i)
+			listaAttivita.add(Attivita);
 		return listaAttivita;
 	}
 	
 	public List<Attivita> findAll(){
-		List<Attivita> attivita= new ArrayList<>();
-		for(Attivita a: attivitaRepository.findAll()) {
-			attivita.add(a);
+		List<Attivita> Attivita= new ArrayList<>();
+		for(Attivita a: AttivitaRepository.findAll()) {
+			Attivita.add(a);
 		}
-		return attivita;
+		return Attivita;
 	}
 	
-	/*bisogna verificare se un'attivita e gia nel database, devo chiedere al repository*/
-	public boolean alreadyExists(Attivita attivita) {
-		return attivitaRepository.existsByNomeAndDescrizione(attivita.getNome(), attivita.getDescrizione());		 
+	/*bisogna verificare se un'Attivita e gia nel database, devo chiedere al repository*/
+	public boolean alreadyExists(Attivita Attivita) {
+		return AttivitaRepository.existsByNomeAndDescrizione(Attivita.getNome(), Attivita.getDescrizione());		 
 	}
 
 	@Transactional
-	public void delete(Attivita attivita) {
-		attivitaRepository.delete(attivita);
+	public void delete(Attivita Attivita) {
+		AttivitaRepository.delete(Attivita);
 	}
 	
 	public void deleteAttivitaById(Long id) {
-		attivitaRepository.deleteById(id);
+		AttivitaRepository.deleteById(id);
+	}
+
+	public long count() {
+		return this.AttivitaRepository.count();
 	}	
 }

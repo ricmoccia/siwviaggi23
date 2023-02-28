@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>modificaViaggioForm</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<h4>Modifica viaggio</h4>
+
+	<div class="cover-container align-self-center">
+
+		<form id="newToolForm" method="POST" th:action="@{/admin/viaggioEdited/{id}(id=${viaggio.id})}"
+			th:object="${viaggio}">
+			<div class="text-danger" th:if="${#fields.hasGlobalErrors()}">
+				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}"> this will contain errors </p>
+			</div>
+			<div class="row my-3 align-self-center justify-content-center">
+				<div class="col-md-6">
+					<span class="input-group-text">Nome</span>
+					<input class="form-control" id="materialename" placeholder="Nome" th:field="*{nome}"
+						th:value="*{nome}" type="text" />
+					<span class="text-danger" th:errors="*{nome}" th:if="${#fields.hasErrors('nome')}">
+						error name</span>
+				</div>
+
+				<div class="col-md-6">
+					<span class="input-group-text">Seleziona guida per questo viaggio</span>
+					<select class="form-control" id="guida" th:field="*{guida}">
+						<option th:each="guida : ${listaGuide}" th:text="${guida}" th:value="${guida.id}">Bear Grylls
+						</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row my-3 align-self-center justify-content-center">
+				<div class="col mb-3">
+					<span class="input-group-text">Descrizione</span>
+					<textarea aria-label="Description" class="form-control" placeholder="Inserisci la tua descrizione"
+						th:field="*{descrizione}" th:value="*{descrizione}" /></textarea>
+				</div>
+				<span class="text-danger" th:errors="*{descrizione}" th:if="${#fields.hasErrors('descrizione')}">
+					error description</span>
+			</div>
+
+			<div class="row my-3 align-self-center justify-content-center">
+				<div class="col-md-9 mb-3">
+					<span class="input-group-text">Partenza</span>
+					<div class="input-group">
+						<!--<span class="input-group-text">giorni</span>-->
+						<input class="form-control" th:field="*{partenza}" th:value="*{partenza}" type="text" />
+						<!--min="{{#temporals.createNow()}}{{plusDays(1)}}{{format('yyyy-MM-dd')}}{{/temporals.createNow()}}" -->
+						<!--<span class="input-group-text"></span>-->
+					</div>
+
+					<div class="form-text" id="toolCostHelp">Date yyyy-MM-dd HH:mm</div>
+				</div>
+			</div>
+
+			<div class="row my-3 align-self-center justify-content-center">
+				<div class="col-md-9 mb-3">
+					<span class="input-group-text">Durata</span>
+					<div class="input-group">
+						<span class="input-group-text">giorni</span>
+						<input class="form-control" th:field="*{durata}" th:value="*{durata}" type="text" />
+						<!--<span class="input-group-text"></span>-->
+					</div>
+
+					<div class="form-text" id="toolCostHelp">integer value</div>
+				</div>
+			</div>
+			<!--<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Immagine</span>
+					<input type="file" name="image" required accept="image/png, image/jpeg" />
+					<div th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}"></div>
+				</div>
+			</div>
+			-->
+
+			<div class="row mb-4 scrollable">
+				<div class="col">
+					<div class="row mt-3">
+						<legend>Seleziona attivita</legend>
+					</div>
+					<div class="row mb-1 " th:each="attivita: ${listaAttivita}">
+						<div class="col">
+							<input id="listaAttivita" name="attivita" th:field="*{Attivita}" th:value="${attivita.id}"
+								type="checkbox">
+							<label for="listaAttivita" th:text="${attivita.nome}">Nome attivita</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</form>
+
+	</div>
+
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>toDeleteMateriale</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">ù
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<h4>Sei sicuro di voler rimuovere questo materiale?</h4>
+
+	<div class="container">
+		<p th:text="'Stai per rimuovere: ' + ${materiale.nome}">Stai per rimuovere: Borraccia</p>
+		<div> <a class="btn btn-danger" href="admin/materiale.html"
+				th:href="@{'/admin/deleteMateriale'+'/'+${materiale.id}}" th:text="CONFERMA">CONFERMA</a>
+		</div>
+	</div>
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

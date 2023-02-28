@@ -27,161 +27,164 @@ import it.siw.viaggi.service.AttivitaService;
 public class AttivitaController {
 
 	@Autowired
-	private AttivitaService attivitaService;
-
+	private AttivitaService AttivitaService;
 	@Autowired
 	private ViaggioService viaggioService;
-
 	@Autowired
 	private MaterialeService materialeService;
-
 	@Autowired
-	private AttivitaValidator attivitaValidator;	
+	private AttivitaValidator AttivitaValidator;	
 
-
-
+	/*__________________________________________METODI PUBBLICI_____________________________________________________*/
 
 	@GetMapping("/attivita/{id}")
 	public String getAttivita(@PathVariable("id") Long id, Model model) {
-		Attivita attivita = attivitaService.findById(id);
-		model.addAttribute("attivita", attivita);
-		model.addAttribute("listaViaggi", attivita.getViaggi());
-		model.addAttribute("listaMateriale", attivita.getMateriali());
-		return "attivita.html"; //la vista successiva mostra i dettagli dell'attivita
+		Attivita Attivita = AttivitaService.findById(id);
+		model.addAttribute("attivita", Attivita);
+		model.addAttribute("listaViaggi", Attivita.getViaggi());
+		model.addAttribute("listaMateriale", Attivita.getMateriali());
+		return "attivita.html"; //la vista successiva mostra i dettagli dell'Attivita
 	}
 
 	@GetMapping("/attivita")
 	public String getAllAttivita(Model model) {
-		List<Attivita> listaAttivita= attivitaService.findAll();
+		List<Attivita> listaAttivita= AttivitaService.findAll();
 		model.addAttribute("listaAttivita", listaAttivita);
+		model.addAttribute("numAttivita", AttivitaService.count());
 		return "activities.html";
 	}
 
 
+	/*___________________________________________METODI PROTECTED________________________________________________________*/
+
+	@GetMapping("/protected/attivita/{id}")
+	public String getAttivitaProtedted(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("attivita", this.AttivitaService.findById(id));
+		return "attivita.html"; //la vista successiva mostra i dettagli dell'attivita
+	}
 
 
-	/*metodi di AttivitaController relativi all'admin*/
-
-
+	/*___________________________________________METODI ADMIN_________________________________________________________*/
 
 	@GetMapping("/admin/attivita/{id}")
 	public String getAttivitaAdmin(@PathVariable("id") Long id, Model model) {
-		Attivita attivita = attivitaService.findById(id);
-		model.addAttribute("attivita", attivita);
-		model.addAttribute("listaViaggi", attivita.getViaggi());
-		model.addAttribute("listaMateriali", attivita.getMateriali());
-		return "admin/attivita.html"; //la vista successiva mostra i dettagli dell'attivita
+		Attivita Attivita = AttivitaService.findById(id);
+		model.addAttribute("Attivita", Attivita);
+		model.addAttribute("listaViaggi", Attivita.getViaggi());
+		model.addAttribute("listaMateriali", Attivita.getMateriali());
+		return "attivita.html"; //la vista successiva mostra i dettagli dell'Attivita
 	}
 
 	@GetMapping("/admin/attivita")
 	public String getAllActivitiesAdmin(Model model) {
-		List<Attivita> listaAttivita= attivitaService.findAll();
+		List<Attivita> listaAttivita= AttivitaService.findAll();
 		model.addAttribute("listaAttivita", listaAttivita);
-		return "admin/activities.html";
+		return "activities.html";
 	}
 
-	/*Questo metodo ritorna la form, prima di ritornarla, mette nel modello un ogg attivita appena creato*/
+	/*Questo metodo ritorna la form, prima di ritornarla, mette nel modello un ogg Attivita appena creato*/
 	@GetMapping("/admin/attivitaForm")
 	public String getAttivitaFormAdmin(Model model) {
-		//in questo modo attivitaForm ha un ogg Attivita a disposizione(senza questa op. non l'avrebbe avuto)
+		//in questo modo AttivitaForm ha un ogg Attivita a disposizione(senza questa op. non l'avrebbe avuto)
 		model.addAttribute("attivita", new Attivita());
-		return "admin/attivitaForm.html"; 		
+		model.addAttribute("materiali", materialeService.findAll());
+		return "attivitaForm.html"; 		
 	}	
 
 
 	@PostMapping("/admin/attivita")
-	public String addAttivitaAdmin(@Valid @ModelAttribute("attivita") Attivita attivita, BindingResult bindingResult, Model model) {
-		attivitaValidator.validate(attivita, bindingResult);//se l'attivita che cerco di inserire e gia presente annullo l'inserimento, bindingResult da l'errore
-		//prima di salvare l'ogg. persona dobbiamo verificare che non ci siano stati errori di validazione
+	public String addAttivitaAdmin(@Valid @ModelAttribute("Attivita") Attivita Attivita, BindingResult bindingResult, Model model) {
+		AttivitaValidator.validate(Attivita, bindingResult);//se l'Attivita che cerco di inserire e gia presente annullo l'inserimento, bindingResult da l'errore
+		//prima di salvare l'ogg. attivita dobbiamo verificare che non ci siano stati errori di validazione
 		if(!bindingResult.hasErrors()) {//se non ci sono stati err di validazione
-			attivitaService.save(attivita);
-			model.addAttribute("attivita", attivita);
-			return "admin/attivita.html";
+			AttivitaService.save(Attivita);
+			model.addAttribute("attivita", Attivita);
+			return "attivita.html";
 		}
 		else {
 			List<Materiale> listaMateriali= materialeService.findAll();
 			model.addAttribute("listaMateriali", listaMateriali);
-			return "admin/attivitaForm.html";  //altrimenti ritorna alla pagina della form
+			return "attivitaForm.html";  //altrimenti ritorna alla pagina della form
 		}
 	}
 
 
 	@Transactional
 	@PostMapping("/admin/attivitaEdited/{id}")
-	public String modificaAttivitaAdmin(@PathVariable Long id, @Valid @ModelAttribute("attivita") Attivita attivita, BindingResult bindingResults, Model model) {
+	public String modificaAttivitaAdmin(@PathVariable Long id, @Valid @ModelAttribute("Attivita") Attivita Attivita, BindingResult bindingResults, Model model) {
 		if(!bindingResults.hasErrors()) {
-			Attivita vecchiaAttivita = attivitaService.findById(id);
-			vecchiaAttivita.setNome(attivita.getNome());
-			vecchiaAttivita.setDescrizione(attivita.getDescrizione());
-			vecchiaAttivita.setDurata(attivita.getDurata());
-			this.attivitaService.save(vecchiaAttivita);
-			model.addAttribute("attivita", attivita);
-			return "admin/attivita.html";
+			Attivita vecchiaAttivita = AttivitaService.findById(id);
+			vecchiaAttivita.setNome(Attivita.getNome());
+			vecchiaAttivita.setDescrizione(Attivita.getDescrizione());
+			vecchiaAttivita.setDurata(Attivita.getDurata());
+			vecchiaAttivita.setMateriali(Attivita.getMateriali());
+			this.AttivitaService.save(vecchiaAttivita);
+			model.addAttribute("attivita", Attivita);
+			return "attivita.html";
 		} 
 		else {
 			model.addAttribute("listaMateriali", materialeService.findAll());
-			return "admin/modificaAttivitaForm.html";
+			return "modificaAttivitaForm.html";
 		}
 	}	
 	@GetMapping("/admin/modificaAttivita/{id}")
 	public String getAttivitaFormAdmin(@PathVariable Long id, Model model) {
-		model.addAttribute("attivita", attivitaService.findById(id));
-		return "admin/modificaAttivitaForm.html";
+		model.addAttribute("attivita", AttivitaService.findById(id));
+		model.addAttribute("materiali", materialeService.findAll());
+		return "modificaAttivitaForm.html";
 	}
 
 	@GetMapping("/admin/toDeleteAttivita/{id}")
 	public String toDeleteAttivitaAdmin(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("attivita", attivitaService.findById(id));
-		return "admin/toDeleteAttivita.html";
+		model.addAttribute("attivita", AttivitaService.findById(id));
+		model.addAttribute("attivita", AttivitaService.findById(id));
+		return "toDeleteAttivita.html";
 	}
 
-	/*quando elimino un'attivita, la devo eliminare anche dalla lista di attivita nel viaggio*/
+	/*quando elimino un'Attivita, la devo eliminare anche dalla lista di Attivita nel viaggio*/
 	@Transactional
 	@GetMapping(value="/admin/deleteAttivita/{id}")
 	public String deleteViaggio(@PathVariable("id") Long id, Model model) {
-		Attivita attivita= this.attivitaService.findById(id);
-		List<Viaggio> elencoViaggi= attivita.getViaggi();
+		Attivita Attivita= this.AttivitaService.findById(id);
+		List<Viaggio> elencoViaggi= Attivita.getViaggi();
 		for(Viaggio viaggio: elencoViaggi) {
-			if(viaggio.getAttivita().contains(attivita)) {
-				viaggio.getAttivita().remove(attivita);
+			if(viaggio.getAttivita().contains(Attivita)) {
+				viaggio.getAttivita().remove(Attivita);
 				this.viaggioService.save(viaggio);
 			}
 		}
-		attivitaService.deleteAttivitaById(id);
-		List<Attivita> listaAttivita= this.attivitaService.findAll();
+		AttivitaService.deleteAttivitaById(id);
+		List<Attivita> listaAttivita= this.AttivitaService.findAll();
 		model.addAttribute("listaAttivita", listaAttivita);
-		return "admin/activities.html";
+		return "activities.html";
 	}
-
-
-
 
 
 
 	@GetMapping("admin/attivitaAddMateriale/{id}")
-	public String attivitaAddIngredienteAdmin(@PathVariable("id") Long id, Model model) {
-		Attivita attivita= this.attivitaService.findById(id);
-		List<Materiale> materialiNellAttivita= attivita.getMateriali();
+	public String attivitaAddMaterialeAdmin(@PathVariable("id") Long id, Model model) {
+		Attivita Attivita= this.AttivitaService.findById(id);
+		List<Materiale> materialiNellAttivita= Attivita.getMateriali();
 		List<Materiale> listaMateriali= this.materialeService.findAll();
-		listaMateriali.removeAll(materialiNellAttivita); //ottengo tutti i materiali meno quelli presenti nell'attivita
-		model.addAttribute("attivita", attivita);
+		listaMateriali.removeAll(materialiNellAttivita); //ottengo tutti i materiali meno quelli presenti nell'Attivita
+		model.addAttribute("attivita", Attivita);
 		model.addAttribute("listaMateriale", listaMateriali);
-		return "admin/attivitaAddMateriale.html";
+		return "attivitaAddMateriale.html";
 	}
 	
-	/*aggiungo un materiale al piatto*/ 
+	/*aggiungo un materiale all' Attivita*/ 
 	@PostMapping("admin/addMateriale/{idAttivita}/{idMateriale}")
 	public String addMaterialeAdmin(@PathVariable("idAttivita") Long idAttivita, @PathVariable("idMateriale") Long idIMateriale, Model model) {
-		Attivita attivita = this.attivitaService.findById(idAttivita);
-		model.addAttribute("attivita", attivita);
+		Attivita Attivita = this.AttivitaService.findById(idAttivita);
+		model.addAttribute("attivita", Attivita);
 		Materiale materiale= this.materialeService.findById(idIMateriale);
-		if(!attivita.getMateriali().contains(materiale)) {
-			attivita.getMateriali().add(materiale);
+		if(!Attivita.getMateriali().contains(materiale)) {
+			Attivita.getMateriali().add(materiale);
 		}
-		attivitaService.save(attivita);
-		List <Materiale> listaMateriali= attivita.getMateriali();
+		AttivitaService.save(Attivita);
+		List <Materiale> listaMateriali= Attivita.getMateriali();
 		model.addAttribute("listaMateriali", listaMateriali);
-		return "admin/attivita.html";
+		return "attivita.html";
 	}
 
 

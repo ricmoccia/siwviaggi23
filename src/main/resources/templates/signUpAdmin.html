@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>Register a new admin</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	
+
+		<!--/*@thymesVar id="credentials" type="it.uniroma3.siw.siwcateringservice.auth.models.Credentials"*/-->
+		<form class="row g-3" method="POST" th:action="@{/registerAdmin}" th:object="${credentials}">
+			<div class="error-text" th:if="${#fields.hasGlobalErrors()}">
+				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}"> this will contain
+					errors
+				</p>
+			</div>
+
+			<div class="col-12">
+				<label class="form-label" for="inputUsername" style="display:block;text-align:center;">Username</label>
+				<input class="form-control" id="inputUsername" placeholder="user" th:field="${credentials.username}"
+					type="text" required>
+				<span class="error-text" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">errore
+					username</span>
+			</div>
+
+			<div class="col-md-6">
+				<label class="form-label" for="inputEmail4">Email</label>
+				<input class="form-control" id="inputEmail4" th:field="${user.email}" type="email" required>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label" for="inputPassword4">Password</label>
+				<input class="form-control" id="inputPassword4" th:field="${credentials.password}" type="password"
+					required>
+				<span class="error-text" th:errors="*{password}" th:if="${#fields.hasErrors('password')}">errore
+					password</span>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label" for="inputFname">Nome</label>
+				<input class="form-control" id="inputFname" placeholder="Mario" th:field="${user.nome}" type="text"
+					required>
+			</div>
+			<div class="col-md-6">
+				<label class="form-label" for="inputLname">Cognome</label>
+				<input class="form-control" id="inputLname" placeholder="Rossi" th:field="${user.cognome}" type="text"
+					required>
+			</div>
+
+			<div class="col-12">
+				<button class="btn btn-primary" type="submit">Sign up</button>
+			</div>
+		</form>
+
+		<footer th:replace="fragments/base.html :: fondo"></footer>
+
+	
+</body>
+
+
+</html>

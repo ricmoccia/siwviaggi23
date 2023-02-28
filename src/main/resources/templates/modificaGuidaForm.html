@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>modificaGuidaForm</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="cover-container align-self-center">
+
+		<form id="newToolForm" method="POST" th:action="@{/admin/guidaEdited/{id}(id=${guida.id})}"
+			th:object="${guida}">
+			<div class="error-text" th:if="${#fields.hasGlobalErrors()}">
+				<p class="" th:each="err : ${#fields.globalErrors()}" th:text="${err}">this will contain errors</p>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="nomeMateriale">Nome</label>
+				<input aria-describedby="materialeNameHelp" class="form-control" id="materialename" th:field="*{nome}"
+					th:value="*{nome}" type="text" />
+				<div class="form-text" id="materialeNameHelp"></div>
+			</div>
+
+			<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Cognome</span>
+					<textarea aria-describedby="toolDescrHelp2" aria-label="Description" class="form-control"
+						th:field="*{cognome}" th:value="*{cognome}" />
+					<!--Inserisci cognome-->
+					</textarea>
+				</div>
+				<div class="form-text" id="toolDescrHelp2"></div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="toolCost">Nazionalita</label>
+				<div class="input-group">
+					<span class="input-group-text"></span>
+					<input aria-describedby="toolCostHelp" aria-label="Amount (to the nearest euro)"
+						class="form-control" id="toolCost" th:field="*{nazionalita}" th:value="*{nazionalita}"
+						type="text" />
+					<span class="input-group-text"></span>
+				</div>
+				<div class="form-text" id="toolCostHelp"></div>
+			</div>
+
+			<!--<div class="row scrollable mb-5">
+				<div class="col">
+					<div class="row mt-3">
+						<legend>Seleziona materiali</legend>
+					</div>
+					<div class="row" th:each="materiale: ${materiali}">
+						<div class="col">
+							<input id="tools" name="tool" th:field="*{materiali}" th:value="${materiale.id}"
+								   type="checkbox">
+							<label for="tools" th:text="${materiale.nome}">Nome materiale</label>
+						</div>
+					</div>
+				</div>
+			</div>
+	-->
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</form>
+
+	</div>
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

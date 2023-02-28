@@ -21,7 +21,7 @@ public class CredentialsValidator implements Validator {
     final Integer MAX_USERNAME_LENGTH = 20;
     final Integer MIN_USERNAME_LENGTH = 4;
     final Integer MAX_PASSWORD_LENGTH = 20;
-    final Integer MIN_PASSWORD_LENGTH = 6;
+    final Integer MIN_PASSWORD_LENGTH = 4;
 
     @Override
     public void validate(Object o, Errors errors) {

@@ -27,13 +27,12 @@ public class GuidaController {
 
 	@Autowired
 	private GuidaService guidaService;
-
 	@Autowired
 	private ViaggioService viaggioService;
-
 	@Autowired
-	private GuidaValidator guidaValidator;	
-
+	private GuidaValidator guidaValidator;		
+	
+	/*__________________________________________METODI PUBBLICI_____________________________________________________*/
 
 	@GetMapping("/guida/{id}")
 	public String getGuida(@PathVariable("id") Long id, Model model) {
@@ -43,7 +42,6 @@ public class GuidaController {
 		model.addAttribute("listaViaggi", listaViaggi);
 		return "guida.html"; //la vista successiva mostra i dettagli della guida
 	}
-
 
 	@GetMapping(value="/guide")
 	public String getAllGuide(Model model) {
@@ -61,15 +59,23 @@ public class GuidaController {
 		return "guide.html";
 	}
 
+	
+	
+	/*___________________________________________METODI PROTECTED________________________________________________________*/
 
+	@GetMapping("/protected/guida/{id}")
+	public String getGuidaProtedted(@PathVariable("id") Long id, Model model) {
+		Guida guida= guidaService.findById(id);
+		model.addAttribute("guida", guida);
+		List<Viaggio> listaViaggi= guida.getViaggi(); //ottengo tutti i viaggi per una guida
+		model.addAttribute("listaViaggi", listaViaggi);
+		return "guida.html"; //la vista successiva mostra i dettagli della guida
+	}
 
-
-
-
-
-	/*metodi di GuidaController che riguardano l'admin*/
-
-
+	
+	
+	
+	/*___________________________________________METODI ADMIN_________________________________________________________*/
 
 	@GetMapping("/admin/guida/{id}")
 	public String getGuidaAdmin(@PathVariable("id") Long id, Model model) {
@@ -77,15 +83,15 @@ public class GuidaController {
 		model.addAttribute("guida", guida);//la stringa mi indica che nelle viste, per recuperare l'ogg lo chiamiamo guida
 		List<Viaggio> listaViaggi= guida.getViaggi(); //ottengo tutti i viaggi per una guida
 		model.addAttribute("listaViaggi", listaViaggi);
-		return "admin/guida.html"; //la vista successiva mostra i dettagli della guida
+		return "guida.html"; //la vista successiva mostra i dettagli della guida
 	}
 
-	@GetMapping("/admin/guide")
+	@GetMapping("/admin/guida")
 	public String getAllGuidesAdmin(Model model) {
 		List<Guida> guide= guidaService.findAll();
 		model.addAttribute("guide", guide);
 		model.addAttribute("numGiude", guide.size());
-		return "admin/guide.html";
+		return "guide.html";
 	}
 
 
@@ -99,17 +105,17 @@ public class GuidaController {
 			model.addAttribute("guida", guida);
 			List<Viaggio> listaViaggi= guida.getViaggi();
 			model.addAttribute("listaViaggi", listaViaggi);
-			return "/admin/guida.html"; //pagina con guida aggiunta
+			return "guida.html"; //pagina con guida aggiunta
 		}
-		return "/admin/guidaForm.html";  //altrimenti ritorna alla pagina della form(ci sono stati degli errori)
+		return "guidaForm.html";  //altrimenti ritorna alla pagina della form(ci sono stati degli errori)
 	}	
 
 	/*Questo metodo che ritorna la form, prima di ritornarla, mette nel modello un ogg guida appena creato*/
-	@GetMapping("/admin/guidasForm")
+	@GetMapping("/admin/guidaForm")
 	public String getGuidasForm(Model model) {
 		//in questo modo guidaForm ha un ogg Guida a disposizione(senza questa op. non l'avrebbe avuto)
 		model.addAttribute("guida", new Guida());
-		return "admin/guidaForm.html"; 		
+		return "guidaForm.html"; 		
 	}
 
 
@@ -118,24 +124,9 @@ public class GuidaController {
 	public String getGuidaFormAdmin(@PathVariable Long id, Model model) { 
 		Guida guida= guidaService.findById(id);
 		model.addAttribute("guida", guida);
-		return "admin/modificaGuidaForm.html";
+		return "modificaGuidaForm.html";
 	}
 
-//	@Transactional
-//	@PostMapping("/admin/modificaChef/{id}")
-//	public String modificaChefAdmin(@PathVariable Long id, @Valid @ModelAttribute("chef") Chef chef, BindingResult bindingResults, Model model) {
-//		if(!bindingResults.hasErrors()) {//se non ci sono stati err di validazione
-//			Chef vecchioChef = chefService.findById(id);
-//			vecchioChef.setId(chef.getId());
-//			vecchioChef.setNome(chef.getNome());
-//			vecchioChef.setCognome(chef.getCognome());
-//			vecchioChef.setNazionalita(chef.getNazionalita());
-//			this.chefService.save(vecchioChef);
-//			model.addAttribute("chef", chef);
-//			return "admin/chef.html";//pagina con lo chef modificato
-//		} 
-//		return "admin/modificaChefForm.html";//se ci sono stati degli errori ritorna alla pagina per la modifica dello chef
-//	}
 	
 	@Transactional
 	@PostMapping("/admin/guidaEdited/{id}")
@@ -154,37 +145,21 @@ public class GuidaController {
 			vecchiaGuida.setNazionalita(guida.getNazionalita());
 			vecchiaGuida.setViaggi(guida.getViaggi());
 			this.guidaService.save(vecchiaGuida);
-			model.addAttribute("guidas", vecchiaGuida);
-			return "admin/guida.html";
+			model.addAttribute("guida", vecchiaGuida);
+			model.addAttribute("listaViaggi",vecchiaGuida.getViaggi());
+			return "guida.html";
 		}
-			return "admin/modificaGuidaForm.html";
-	}
-		
+			return "modificaGuidaForm.html";
+	}		
 
 
 	@GetMapping("/admin/toDeleteGuida/{id}")
 	public String toDeleteGuidaAdmin(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("guida", guidaService.findById(id));
-		return "admin/toDeleteGuida.html";
+		return "toDeleteGuida.html";
 	}
 
-	/*QUANDO ELIMINO UNA GUIDA:
-	 * -devo mettere a null la guida nei viaggi della guida
-	 */
-	//	@Transactional
-	//	@GetMapping("/admin/deleteChef/{id}")
-	//	public String deleteChefAdmin(@PathVariable("id")Long id, Chef chef, BindingResult bindingResult,Model model) {
-	//		List<Buffet> listaBuffet= (List<Buffet>) buffetService.findAll();
-	//		for(Buffet buffet: listaBuffet) {
-	//			if(buffet.getChef().equals(chef)) {
-	//				buffet.setChef(null);
-	//				buffetService.save(buffet);
-	//			}
-	//		}
-	//		chefService.deleteChefById(id);
-	//		model.addAttribute("chefs", chefService.findAll());
-	//		return "admin/chefs.html";
-	//	}
+	
 	@GetMapping(value="/admin/deleteGuida/{id}")
 	public String deleteGuida(@PathVariable("id") Long id, Model model) {
 		Guida guida= this.guidaService.findById(id);
@@ -197,7 +172,7 @@ public class GuidaController {
 		//model.addAttribute("numGuide", guidaService.count());
 		List<Guida> guide= this.guidaService.findAll();
 		model.addAttribute("guide", guide);
-		return "admin/guide.html";
+		return "guide.html";
 	}
 
 
@@ -214,7 +189,7 @@ public class GuidaController {
 		model.addAttribute("listaViaggi", listaViaggi);
 		this.viaggioService.save(viaggio);
 		this.guidaService.save(guida);
-		return "admin/guida.html";
+		return "guida.html";
 	}
 
 
@@ -228,7 +203,7 @@ public class GuidaController {
 		model.addAttribute("guida", guida);
 		List<Viaggio> listaViaggi= guida.getViaggi();
 		model.addAttribute("listaViaggi", listaViaggi);
-		return "admin/guida.html";
+		return "guida.html";
 	}
 
 	@GetMapping("admin/guidaAddViaggio/{id}")
@@ -242,12 +217,8 @@ public class GuidaController {
 				listaViaggi.add(viaggio);
 		}
 		model.addAttribute("listaViaggi", listaViaggi);
-		return "admin/guidaAddViaggio.html";
+		return "guidaAddViaggio.html";
 	}
-
-
-
-
 
 
 

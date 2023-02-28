@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>viaggio</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="row my-4 text-danger" th:unless="${viaggio}">
+		<h4> Questo viaggio non esiste</h4>
+	</div>
+
+	<div class="row my-4" th:if="${viaggio}">
+		<div class="col">
+			<h3>Dettagli viaggio</h3>
+		</div>
+	</div>
+
+	<div class="row my-2" th:if="${viaggio}" style="text-align:center;">
+		<div class="col-12 col-lg-8 align-self-center">
+
+			<div class="row my-3">
+				<div class="col-12 col-md-7 my-auto">
+					<h2 th:text="${viaggio.nome}">Viaggio a Parigi</h2>
+				</div>
+				<div class="col-12 col-md-5 my-auto" th:if="${viaggio.guida != null}">
+					<p>guida per il viaggio:
+						<a href="#" th:href="@{'/protected/guida' + '/' + ${viaggio.guida.id}}"
+							th:text="${viaggio.guida}">Bear Grylls
+						</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="row my-3">
+				<div class="col-12 col-md-7">
+					<p th:text="${viaggio.descrizione}">viaggio di nozze</p>
+				</div>
+				<div class="col-12 col-md-5">
+					<p th:text="${viaggio.partenza}">28/02/2023</p>
+				</div>
+			</div>
+
+			<div class="row my-3">
+				<div class="col-12 col-md-7">
+					<p th:text="${viaggio.durata}+' giorni'">7 giorni</p>
+				</div>
+			</div>
+
+			<div class="row my-3 ">
+				<div class="col-12 col-md-7">
+					<div class="row">
+						<h4 th:if="${viaggio.Attivita != null and #lists.size(viaggio.Attivita) > 0}">Attivita del viaggio</h4>
+					</div>
+					<div class="row scrollable">
+						<ul>
+							<li th:each="attivita : ${viaggio.Attivita}">
+								<a href="#" th:href="@{'/protected/attivita' + '/' + ${attivita.id}}"
+									th:text="${attivita.nome}">Escursione</a>
+								<!-- + ' - ' + ${attivita.descrizione}-Passeggiata in montagna  -->
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-12 col-md-5">
+					<div class="row">
+						<h4>Viaggiatori</h4>
+					</div>
+					<div class="row scrollable">
+						<div th:each="viaggiatore: ${viaggio.viaggiatori}">
+							<p th:text="${viaggiatore.nome} + ' ' + ${viaggiatore.cognome}">Mario Rossi</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4 align-self-center">
+				<img alt="immagine viaggio" class="img-fluid rounded-3" src="../../static/images/taj.jpeg"
+					th:src="@{/images/taj.jpeg}">
+			</div>
+		</div>
+
+		<!--solo chi è autenticato con ruolo default puo partecipare al viaggio adesso anche admin-->
+		<div class="row my-2" th:if="${viaggio}" style="padding-bottom: 40px;">
+			<div class="col align-self-center" th:if="${viaggio.partenza.after(#dates.createNow())}">
+				<form th:if="${utentePartecipa==null or utentePartecipa==false}" id="register" method="POST"
+					th:action="@{'/protected/partecipaAViaggio/' + ${viaggio.id}}">
+					<button class="btn btn-primary" type="submit">Partecipa al viaggio</button>
+				</form>
+				<form th:if="${utentePartecipa}" id="register" method="POST"
+					th:action="@{'/protected/annullaPartecipazioneAViaggio/' + ${viaggio.id}}">
+					<button class="btn btn-sm btn-danger" type="submit">Annulla Partecipazione</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

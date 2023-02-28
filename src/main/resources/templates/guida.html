@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>guida</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="row my-4 text-danger" th:unless="${guida}">
+		<h4> Questa guida non esiste</h4>
+	</div>
+
+	<div class="row my-4" th:if="${attivita}">
+		<div class="col">
+			<h3>Dettagli guida</h3>
+		</div>
+	</div>
+
+	<div class="row my-2" th:if="${guida}">
+		<div class="col-12 col-lg-8 align-self-center">
+			<div class="row my-3">
+				<div class="col">
+					<h2 th:text="${guida.nome}">Bear</h2>
+				</div>
+			</div>
+			<div class="row my-3">
+				<div class="col-10">
+					<p th:text="${guida.cognome}">Grylls</p>
+				</div>
+				<div class="col-2">
+					<p th:text="${guida.nazionalita}">americana</p>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row my-2" th:if="${listaViaggi != null and #lists.size(listaViaggi) > 0}">
+			<div class="col-12 col-md-5">
+				<div class="row">
+					<h4>Viaggi organizzati dalla guida</h4>
+				</div>
+				<div th:each="viaggio: ${listaViaggi}">
+					<p>
+						<a href="#" th:href="@{'/protected/viaggio' + '/' + ${viaggio.id}}"
+							th:text="${viaggio.nome}">nomeViaggio</a>
+						<span th:text="${viaggio.descrizione}">descrizione</span>
+					</p>
+				</div>
+			</div>
+		</div>
+
+
+		<!--<div class="row my-3 scrollable">
+			<div class="col-10">
+				<ul>
+					<li th:each="materiale : ${attivita.materiali}">
+						<a href="#" th:href="@{'/protected/materiale' + '/' + ${materiale.id}}"
+							th:text="${materiale.nome}">Borraccia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	 -->
+
+	</div>
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

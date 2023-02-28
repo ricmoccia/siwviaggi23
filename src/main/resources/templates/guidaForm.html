@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>guidaForm</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<h4>Aggiungi una nuova guida</h4>
+
+	<div class="cover-container align-self-center">
+
+		<form id="newToolForm" method="POST" th:action="@{/admin/guida}" th:object="${guida}">
+			<div class="text-danger" th:if="${#fields.hasGlobalErrors()}">
+				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}"> this will contain errors </p>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="toolname">Nome</label>
+				<input class="form-control" id="materialename" placeholder="Nome" th:field="*{nome}"
+					th:value="*{nome}" type="text" />
+				<span class="text-danger" th:errors="*{nome}" th:if="${#fields.hasErrors('nome')}">
+					error name</span>
+			</div>
+
+			<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Cognome</span>
+					<textarea aria-label="Description" class="form-control" placeholder="Cognome" th:field="*{cognome}"
+						th:value="*{cognome}" /></textarea>
+				</div>
+				<span class="text-danger" th:errors="*{cognome}" th:if="${#fields.hasErrors('cognome')}">
+					error nome</span>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="prezzoMateriale">Nazionalita</label>
+				<div class="input-group">
+					<span class="input-group-text"></span>
+					<input class="form-control" placeholder="italiana" th:field="*{nazionalita}"
+						th:value="*{nazionalita}" type="text" />
+					<span class="input-group-text"></span>
+				</div>
+
+			</div>
+
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</form>
+
+	</div>
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

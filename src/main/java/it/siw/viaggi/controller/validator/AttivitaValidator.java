@@ -12,7 +12,7 @@ import it.siw.viaggi.service.AttivitaService;
 public class AttivitaValidator implements Validator{
 
 	@Autowired
-	private AttivitaService attivitaService;
+	private AttivitaService AttivitaService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -21,10 +21,10 @@ public class AttivitaValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		if(this.attivitaService.alreadyExists((Attivita) target)) { //se l'attivita gia esiste
-			/*specifica che c'è stato un errore nella validazione e registra un codice di errore(stringa attivita.duplicato)
-			 * il codice di errore attivita.duplicato è associato ad un messaggio nel file messages_IT.properties*/
-			errors.reject("attivita.duplicato");
+		if(this.AttivitaService.alreadyExists((Attivita) target)) { //se l'Attivita gia esiste
+			/*specifica che c'è stato un errore nella validazione e registra un codice di errore(stringa Attivita.duplicato)
+			 * il codice di errore Attivita.duplicato è associato ad un messaggio nel file messages_IT.properties*/
+			errors.reject("Attivita.duplicato");
 		}
 	}
 

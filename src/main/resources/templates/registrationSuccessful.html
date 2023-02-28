@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/base.html :: headerfiles(title='Registration successful')">
+	<meta charset="UTF-8" />
+	<link href="../../static/css/base-style.css" rel="stylesheet" th:href="@{/css/base-style.css}">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazione"></header>
+	<div>
+		<h1>Congratulazioni ti sei registrato!</h1>
+	</div>
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

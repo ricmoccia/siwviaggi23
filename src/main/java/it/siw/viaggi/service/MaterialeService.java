@@ -17,9 +17,10 @@ public class MaterialeService {
 	@Autowired
 	private MaterialeRepository materialeRepository;
 
+	/*e un'operazione transazionale, aggiorno dati nel database*/
 	@Transactional
-	public void save(Materiale materiale) {
-		materialeRepository.save(materiale);
+	public Materiale save(Materiale materiale) {
+		return materialeRepository.save(materiale);
 	}
 	
 	@Transactional

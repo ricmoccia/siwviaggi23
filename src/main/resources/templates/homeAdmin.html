@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>home admin</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="container d-flex h-100 p-3 mx-auto flex-column">
+
+
+		<div class="row mb-5">
+			<div class="col">
+				<h2 style="text-align:center;">Benvenuto</h2>
+				<h2 style="text-align:center;" th:text="${user.nome}+' '+${user.cognome}">Mario Rossi</h2>
+			</div>
+		</div>
+		<div class="row my-5" style="text-align:center;">
+			<div class="col-3">
+				<div class="row">
+					<h3>Viaggi</h3>
+				</div>
+				<div class="row my-3">
+					<!--<h1 th:text="${numViaggi}">  </h1>-->
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<a class="btn btn-warning" href="#" th:href="@{/admin/viaggio}">modifica viaggi</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="row">
+					<h3>Attivita</h3>
+				</div>
+				<div class="row my-3">
+					<!--<h1 th:text="${numAttivita}"> </h1>-->
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<a class="btn btn-warning" href="#" th:href="@{/admin/attivita}">modifica Attivita</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="row">
+					<h3>Materiali</h3>
+				</div>
+				<div class="row my-3">
+					<!--<h1 th:text="${numMateriali}"></h1>-->
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<a class="btn btn-warning" href="#" th:href="@{/admin/materiale}">modifica materiali</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="row">
+					<h3>Guide</h3>
+				</div>
+				<div class="row my-3">
+					<!--<h1 th:text="${numGuide}">87</h1>-->
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<a class="btn btn-warning" href="#" th:href="@{/admin/guida}">modifica guide</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer th:replace="fragments/base.html :: fondo"></footer>
+
+	</div>
+</body>
+
+</html>

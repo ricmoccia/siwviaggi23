@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>viaggi</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+
+	<div class="row bg-dark my-4 text-danger" th:if="${viaggi.isEmpty()}">
+		<h4>Non ci sono viaggi disponibili</h4>
+	</div>
+
+	<div class="row my-4" th:unless="${viaggi.isEmpty()}">
+		<h4>Viaggi disponibili</h4>
+	</div>
+
+	<div class="row my-2 justify-content-center" th:unless="${viaggi.isEmpty()}">
+
+		<div class="col-2">
+			<h5>Nome</h5>
+		</div>
+		<div class="col-4">
+			<h5>Descrizione</h5>
+		</div>
+		<div class="col-2">
+			<h5>Partenza</h5>
+		</div>
+		<div class="col-2">
+			<h5>Durata</h5>
+		</div>
+		<div class="col-2" sec:authorize="hasAuthority('ADMIN')">
+			<h5>Edit</h5>
+		</div>
+	</div>
+
+	<div class="row mb-2 justify-content-center" th:each="viaggio : ${viaggi}">
+		<div class="col-2"><a href="#" th:href="@{'/protected/viaggio' + '/' + ${viaggio.id}}"
+				th:text="${viaggio.nome}">Viaggio a Parigi</a></div>
+		<div class="col-4">
+			<p th:text="${viaggio.descrizione}">viaggio di nozze</p>
+		</div>
+		<div class="col-2">
+			<p th:text="${viaggio.partenza}">5 maggio 2023</p>
+		</div>
+		<div class="col-2">
+			<p th:text="${viaggio.durata}+' giorni'">7</p>
+		</div>
+		<div class="col-2" sec:authorize="hasAuthority('ADMIN')">
+			<div aria-label="buttons" class="btn-group btn-group-sm" role="group">
+				<a class="btn btn-danger btn-sm" href="#" th:href="@{'/admin/toDeleteViaggio' + '/' + ${viaggio.id}}"
+					style="background-color: black;">Delete</a>
+				<a class="btn btn-warning btn-sm" href="#"
+					th:href="@{'/admin/modificaViaggio' + '/' + ${viaggio.id}}">Edit</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-5" sec:authorize="hasAuthority('ADMIN')">
+		<div class="col">
+			<a class="btn btn-success btn-lg" href="#" th:href="@{/admin/viaggioForm}">Aggiungi viaggio</a>
+		</div>
+	</div>
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+
+</body>
+
+</html>

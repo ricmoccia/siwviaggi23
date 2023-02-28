@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>modificaMaterialeForm</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="cover-container align-self-center">
+
+		<form id="newToolForm" method="POST" th:action="@{/admin/materialeEdited/{id}(id=${materiale.id})}" th:object="${materiale}">
+			<div class="error-text" th:if="${#fields.hasGlobalErrors()}">
+				<p class="" th:each="err : ${#fields.globalErrors()}" th:text="${err}">this will contain errors</p>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="nomeMateriale">Nome</label>
+				<input aria-describedby="materialeNameHelp" class="form-control" id="materialename" th:field="*{nome}"
+					th:value="*{nome}" type="text" />
+				<div class="form-text" id="materialeNameHelp"></div>
+			</div>
+
+			<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Descrizione</span>
+					<textarea aria-describedby="toolDescrHelp2" aria-label="Description" class="form-control"
+						th:field="*{descrizione}" th:value="*{descrizione}" /> <!--"Inserisci descrizione-->
+					</textarea>
+				</div>
+				<div class="form-text" id="toolDescrHelp2"></div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="toolCost">Prezzo</label>
+				<div class="input-group">
+					<span class="input-group-text">€</span>
+					<input aria-describedby="toolCostHelp" aria-label="Amount (to the nearest euro)"
+						class="form-control" id="toolCost" th:field="*{prezzo}" th:value="*{prezzo}" type="text" />
+					<span class="input-group-text">.00</span>
+				</div>
+				<div class="form-text" id="toolCostHelp">10.00</div>
+			</div>
+
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</form>
+
+	</div>
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

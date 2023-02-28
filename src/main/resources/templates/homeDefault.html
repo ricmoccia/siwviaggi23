@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>home default</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<div class="container d-flex h-100 p-3 mx-auto flex-column">
+
+
+		<div class="row mb-5">
+			<div class="col">
+				<h2 style="text-align:center;">Benvenuto</h2>
+				<h2 style="text-align:center;" th:text="${user.nome}+' '+${user.cognome}">Mario Rossi</h2>
+			</div>
+		</div>
+
+
+		<div th:unless="${user.listaViaggi.isEmpty()}">
+			<div class="row my-3" style="text-align: center;">
+				<h4>I tuoi viaggi</h4>
+			</div>
+
+			<div class="row mb-3 justify-content-center align-items-center" th:each="viaggio : ${user.listaViaggi}">
+				<div class="col-2">
+					<div class="row mt-3">
+						<a href="#" th:href="@{'/protected/viaggio' + '/' + ${viaggio.id}}" th:text="${viaggio.nome}">
+							Nome viaggio</a>
+						<p class="fw-lighter fa-1" th:text="${viaggio.partenza}">2023-02-27 11:00</p>
+					</div>
+				</div>
+				<div class="col-2" th:if="${viaggio.partenza.after(#dates.createNow())}">
+					<form id=" register" method="POST" th:action="@{'/protected/annullaPartecipazioneAViaggio/' + ${viaggio.id}}">
+						<button class="btn btn-sm btn-danger" type="submit">Annulla Partecipazione</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+		<footer th:replace="fragments/base.html :: fondo"></footer>
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>guide</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+
+	<div class="row bg-dark my-4 text-danger" th:if="${guide.isEmpty()}">
+		<h4>Non ci sono guide disponibili</h4>
+	</div>
+
+	<div class="row my-4" th:unless="${guide.isEmpty()}">
+		<h4>Guide disponibili</h4>
+	</div>
+
+	<div class="row my-2 justify-content-center" th:unless="${guide.isEmpty()}">
+
+		<div class="col-3">
+			<h5>Nome</h5>
+		</div>
+		<div class="col-5">
+			<h5>Cognome</h5>
+		</div>
+		<div class="col-2">
+			<h5>Nazionalita</h5>
+		</div>
+		<div class="col-2" sec:authorize="hasAuthority('ADMIN')">
+			<h5>Edit</h5>
+		</div>
+	</div>
+
+	<div class="row mb-2 justify-content-center" th:each="guida: ${guide}">
+		<div class="col-3"><a href="#" th:href="@{'/protected/guida' + '/' + ${guida.id}}"
+				th:text="${guida.nome}">Bear</a></div>
+
+		<div class="col-5">
+			<p th:text="${guida.cognome}">Grylls</p>
+		</div>
+		<div class="col-2">
+			<p th:text="${guida.nazionalita}">Americano</p>
+		</div>
+		<div class="col-2" sec:authorize="hasAuthority('ADMIN')">
+			<div aria-label="buttons" class="btn-group btn-group-sm" role="group">
+				<a class="btn btn-danger btn-sm" href="#"
+					th:href="@{'/admin/toDeleteGuida' + '/' + ${guida.id}}"
+					style="background-color: black;">Delete</a>
+				<a class="btn btn-warning btn-sm" href="#"
+					th:href="@{'/admin/modificaGuida' + '/' + ${guida.id}}">Edit</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-5" sec:authorize="hasAuthority('ADMIN')">
+		<div class="col">
+			<a class="btn btn-success btn-lg" href="#" th:href="@{/admin/guidaForm}">Aggiungi guida</a>
+		</div>
+	</div>
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

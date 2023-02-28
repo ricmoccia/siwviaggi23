@@ -2,11 +2,18 @@ package it.siw.viaggi.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+@Entity
 public class Materiale {
 	
 	@Id
@@ -19,8 +26,21 @@ public class Materiale {
 	@NotBlank
 	private String descrizione;
 	
-	@NotBlank
-	private float prezzo;
+	@NotNull
+	@Min(1)
+	@Max(1000)
+	private int prezzo;
+	
+	@Column(nullable = true, length = 64)
+	private String photos; 
+	
+	@Transient
+	public String photoImagePath;
+	public String getPhotosImagePath() {
+		if (photos == null || id == null) return null;
+
+		return "/user-photos/" + id + "/" + photos;
+	}
 
 	public Materiale() {
 		super();
@@ -50,12 +70,19 @@ public class Materiale {
 		this.descrizione = descrizione;
 	}
 
-	public float getPrezzo() {
+	public int getPrezzo() {
 		return prezzo;
 	}
 
-	public void setPrezzo(float prezzo) {
+	public void setPrezzo(int prezzo) {
 		this.prezzo = prezzo;
+	}
+	
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String immagine) {
+		this.photos = immagine;
 	}
 
 	@Override

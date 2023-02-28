@@ -1,0 +1,128 @@
+* {box-sizing: border-box;}
+
+/*     proprieta del footer           */
+.text-center {
+   text-align: center;
+   position: fixed;
+   width: 100%;
+   left: 0;
+   bottom: 0;
+}
+
+/*      PAGINA INDEX  VECCHIA              */
+/*
+.immagineindex{
+	        display:block;
+			width:1000px;
+			height:500px;
+			display: block;
+            margin:0 auto;
+			text-align: center;
+			margin-top:40px;
+		}
+.scrittaWelcome{
+	text-align: center;
+	font-family: cursive;
+	font-size: 20px;
+	margin-top: 20px;
+}
+*/
+body{
+	background-color:beige ;
+}
+
+
+
+
+/*   TABELLE    */
+.tabella {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tabella td, .tabella th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tabella tr:nth-child(even){background-color: #f2f2f2;}
+
+.tabella tr:hover {background-color: #ddd;}
+
+.tabella th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+
+
+
+
+/*NUOVA NAVBAR*/
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+
+
+/*IMMAGINI SFONDO*/
+.sfondoMateriale{
+    background-image: url("../../images/materiale.jpeg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.sfondoPiramidi1{
+    background-image: url("../../images/piramidi1.jpeg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.sfondoCartina1{
+    background-image: url("../../images/cartina1.jpeg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+
+
+
+
+
+
+
+

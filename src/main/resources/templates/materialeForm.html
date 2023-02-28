@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="headerfiles(title)">
+	<title>materialeForm</title>
+	<link href="../../static/css/bootstrap/css/bootstrap.css" rel="stylesheet"
+		th:href="@{/css/bootstrap/css/bootstrap.css}">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+</head>
+
+<body class="sfondoCartina1" style="color: white;background-color: black;">
+	<header th:replace="fragments/base.html :: intestazioneAutenticato"></header>
+
+	<h4>Aggiungi un nuovo materiale</h4>
+
+	<div class="cover-container align-self-center">
+
+		<form id="newToolForm" method="POST" th:action="@{/admin/materiale}" th:object="${materiale}"
+			enctype="multipart/form-data">
+			<div class="text-danger" th:if="${#fields.hasGlobalErrors()}">
+				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}"> this will contain errors </p>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="toolname">Nome</label>
+				<input class="form-control" id="materialename" placeholder="Borraccia" th:field="*{nome}"
+					th:value="*{nome}" type="text" />
+				<span class="text-danger" th:errors="*{nome}" th:if="${#fields.hasErrors('nome')}">
+					error name</span>
+			</div>
+
+			<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Descrizione</span>
+					<textarea aria-label="Description" class="form-control" placeholder="Inserisci la tua descrizione"
+						th:field="*{descrizione}" th:value="*{descrizione}" /></textarea>
+				</div>
+				<span class="text-danger" th:errors="*{descrizione}" th:if="${#fields.hasErrors('descrizione')}">
+					error description</span>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="prezzoMateriale">Prezzo</label>
+				<div class="input-group">
+					<span class="input-group-text">€</span>
+					<input class="form-control" placeholder="10" th:field="*{prezzo}" th:value="*{prezzo}"
+						type="text" />
+					<span class="input-group-text">.00</span>
+				</div>
+
+				<div class="form-text" id="toolCostHelp">integer value</div>
+			</div>
+
+			<div class="mb-3">
+				<div class="input-group">
+					<span class="input-group-text">Immagine</span>
+					<input type="file" name="image" required accept="image/png, image/jpeg" />
+					<div th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}"></div>
+				</div>
+			</div>
+
+			<button class="btn btn-primary" type="submit">Submit</button>
+		</form>
+
+	</div>
+
+
+
+
+
+
+	<footer th:replace="fragments/base.html :: fondo"></footer>
+</body>
+
+</html>

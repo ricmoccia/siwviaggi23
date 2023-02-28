@@ -104,6 +104,12 @@ public class Guida {
 	public void setViaggi(List<Viaggio> viaggi) {
 		this.viaggi = viaggi;
 	}
+
+
+	@Override
+	public String toString() {
+		return nome+ " " + cognome;
+	}
 	
 
 

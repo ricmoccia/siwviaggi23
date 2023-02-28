@@ -1,19 +1,90 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:fragment="headerfiles(title)">
 	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="index.css" >
-	<title>Demo</title>
+	<link rel="stylesheet" href="/css/base-style.css">
+	<title th:text="${title}"></title>
 </head>
 
 <body>
+
 	<header th:fragment="intestazione">
-	<h1>SIW: simple demo</h1>
+		<ul>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#home" th:href="@{/}">Home</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#home"
+					th:href="@{/register}">SignUp</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					th:href="@{/login}">LogIn</a></li>
+			<li style="float:right"><a class="active">SiwViaggi</a></li>
+		</ul>
 	</header>
-	<footer th:fragment="footer">
-	<a href="index.heml" th:href="@{/}">HOME</a>
+
+
+	<header th:fragment="intestazioneAutenticato">
+		<ul>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#home"
+					th:href="@{/default}">Home</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					th:href="@{/viaggio}">Viaggi</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					th:href="@{/attivita}">Attivita</a></li>
+
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					sec:authorize="hasAuthority('ADMIN')"  th:href="@{/admin/materiale}">Materiali</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					sec:authorize="hasAuthority('ADMIN')"  th:href="@{/admin/guida}">Guide</a></li>
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					sec:authorize="hasAuthority('ADMIN')"  th:href="@{/registerAdmin}">RegisterAdmin</a></li>
+
+			<li><a href="tryit.asp-filename=trycss_navbar_horizontal_black_right.html#news"
+					th:href="@{/logout}">LogOut</a></li>
+
+			<li style="float:right"><a class="active">SiwViaggi</a></li>
+		</ul>
+	</header>
+
+	<!--<header th:fragment="intestazione">
+		<div class="topnav">
+			<a class="active" th:href="@{/}">Home</a>
+			<a th:href="@{/chef}">Elenco chef</a>
+			<a th:href="@{/buffet}">Elenco buffet</a>
+			<a th:href="@{/register}">SignUp</a>
+			<div class="login-container">
+				<form th:action="@{/login}" method="POST">
+					<input type="text" placeholder="Username" name="username">
+					<input type="password" placeholder="Password" name="password">
+					<button type="submit">Login</button>
+				</form>
+			</div>
+		</div>
+	</header>
+
+
+	<header th:fragment="intestazioneAdmin">
+		<div class="topnav">
+			<a class="active" th:href="@{/default}">Home</a>
+			<a th:href="@{/admin/chef}">Manage guida</a>
+			<a th:href="@{/admin/buffet}">Manage viaggi</a>
+			<a th:href="@{/admin/Attivita}">Manage Attivita</a>
+			<a th:href="@{/admin/ingrediente}">Manage materiale</a>
+			<div class="login-container">
+				<a th:href="@{/logout}">Logout</a>
+			</div>
+		</div>
+	</header>
+	-->
+	<p>Go to the next page to see fragments in action</p>
+	<aside>
+		<div>This is a sidebar</div>
+	</aside>
+	<div class="another">This is another sidebar</div>
+
+
+	<footer th:fragment="fondo">
+		<p class="text-center">&copy;2023Progetto siwviaggi Riccardo Moccia</p>
 	</footer>
+
 </body>
 
 </html>

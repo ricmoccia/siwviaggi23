@@ -1,24 +1,70 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:fragment="headerfiles(title)">
 	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="index.css">
-	<title>Demo</title>
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/base-style.css">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon-32x32.png">
+	<title th:text="${title}"></title>
 </head>
 
 <body>
 	<header th:replace="fragments/base.html :: intestazione"></header>
 
-	<div>
-		<h4>Operazioni</h4>
-		<div>
-			<a th:href="@{/personaForm}">Inserisci persona</a>
+	<div class="w3-display-container" style="margin-bottom:50px">
+		<img src="../../static/images/sfondo1.jpg" th:src="@{/images/sfondo1.jpg}" style="width:100%">
+		<div class="w3-display-bottomleft w3-container w3-amber w3-hover-orange w3-hide-small"
+			style="bottom:10%;opacity:0.7;width:70%">
+			<h2><b>Benvenuto<br>in siw viaggi</b></h2>
 		</div>
-		<div>
-			<a th:href="@{/persona}">Elenco persone</a>
-		</div>  
 	</div>
-</body>
+
+	<div class="w3-row w3-container" style="margin:50px 0">
+		<div class="w3-half w3-container">
+			<div class="w3-topbar w3-border-amber">
+				<img src="../../static/images/sfondo3film.jpeg" th:src="@{/images/sfondo3film.jpeg}"
+					style="width:100%; height:470px;">
+				<h2>Realizza i tuoi sogni</h2>
+				<p>"Un viaggio di mille miglia comincia sempre con il primo passo" Lao Tzu</p>
+			</div>
+		</div>
+
+		<div class="w3-half w3-container">
+			<div class="w3-topbar w3-border-amber">
+				<img src="../../static/images/sfondo2panda.jpeg" th:src="@{/images/sfondo2panda.jpeg}"
+					style="width:100%; height:470px;">
+				<h2>Esplora</h2>
+				<p>"Non si può mai attraversare l’oceano se non si ha il coraggio di perdere di vista la riva"
+					Cristoforo Colombo</p>
+			</div>
+		</div>
+	</div>
+
+	<!--
+	<div class="w3-row w3-container" style="margin:50px 0">
+		<div class="w3-half w3-container">
+			<div class="w3-topbar w3-border-orange">
+				<img src="../../static/images/sfondo4macchina.jpeg"
+				 th:src="@{/images/sfondo4macchina.jpeg}" style="width:100%">
+				<h2>Car Rental Included</h2>
+				<p>Wherever you travel our car rental is included.</p>
+			</div>
+		</div>
+
+		<div class="w3-half w3-container">
+			<div class="w3-topbar w3-border-orange">
+				<img src="../../static/images/sfondo5.jpeg"
+				 th:src="@{/images/sfondo5.jpeg}" style="width:100%">
+				<h2>Realize Your Dreams</h2>
+				<p>Don't wait until it is to late.</p>
+			</div>
+		</div>
+	</div>
+-->
+
+	<footer>
+		<p style="text-align: center;width: 100%;">&copy;2023Progetto siwviaggi Riccardo Moccia</p>
+	</footer>
 
 </html>

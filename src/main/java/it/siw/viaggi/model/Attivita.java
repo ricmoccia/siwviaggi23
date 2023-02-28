@@ -3,6 +3,7 @@ package it.siw.viaggi.model;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,7 +11,9 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+@Entity
 public class Attivita {
 	
 	@Id
@@ -25,13 +28,13 @@ public class Attivita {
 	
 	@Min(0)
 	@Max(9)
-	@NotBlank
+	@NotNull
 	private int durata;
 	
 	@ManyToMany
 	private List<Materiale> materiali;
 	
-	@ManyToMany(mappedBy="attivita")
+	@ManyToMany(mappedBy="Attivita")
 	private List<Viaggio> viaggi;
 	
 
