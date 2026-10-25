@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# da aggiungere al .gitignore esistente
+.temp-*-classpath-arg-*.txt
+user-photos/
+
